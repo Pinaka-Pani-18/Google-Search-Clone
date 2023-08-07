@@ -7,7 +7,15 @@ import MicIcon from "../assets/mic.svg";
 import ImageIcon from "../assets/image.svg";
 
 const SearchInput = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const { query } = useParams();
+  const [searchQuery, setSearchQuery] = useState(query || "");
+  const navigate = useNavigate();
+
+  const searchQueryHandler = (event) => {
+    if (event.key === "Enter" && searchQuery.length > 0) {
+      navigate(`${searchQuery}/${1}`);
+    }
+  };
 
   return (
     <div
@@ -18,7 +26,7 @@ const SearchInput = () => {
       <input
         type="text"
         onChange={(e) => setSearchQuery(e.target.value)}
-        onKeyUp={(e) => console.log(e.target.value)}
+        onKeyUp={searchQueryHandler}
         className="grow outline-0 text-black/[0.87]"
         value={searchQuery}
         autoFocus
