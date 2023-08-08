@@ -9,15 +9,27 @@ import { menu } from "../utils/Constants";
 
 const SearchResultHeader = () => {
   const [selectedMenu, setSelectedMenu] = useState("All");
+  const { setImageSearch } = useContext(Context);
+
+  useEffect(() => {
+    return () => {
+      setImageSearch(false);
+    };
+  }, []);
+
   const clickHandler = (item) => {
+    let isTypeImage = item.name === "Images";
     setSelectedMenu(item.name);
+    setImageSearch(isTypeImage ? true : false);
   };
 
   return (
     <div className="p-[15px] pb-0 md:pr-5 md:pl-20 md:pt-7 border-b border-[#ebebeb] flex md:block flex-col items-center sticky top-0 bg-white">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center grow">
-          <img className="hidden md:block w-[92px] mr-10" src={Logo} />
+          <Link to="/">
+            <img className="hidden md:block w-[92px] mr-10" src={Logo} />
+          </Link>
           <SearchInput />
         </div>
         <div className="hidden md:block">
@@ -30,7 +42,7 @@ const SearchResultHeader = () => {
             <span
               key={index}
               className={`flex items-center p-3 text-[#5f6368] rounded-full cursor-pointer relative ${
-                selectedMenu === item.name ? "text-[#1a73e8] " : ""
+                selectedMenu === item.name ? "text-[#1a73e8]" : ""
               }`}
               onClick={() => clickHandler(item)}
             >
